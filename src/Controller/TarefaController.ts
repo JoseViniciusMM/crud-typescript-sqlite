@@ -1,8 +1,9 @@
 import readlineSync from 'readline-sync';
 import { TarefaService } from '../Services/TarefaService';
-
+import { CategoriaService } from '../Services/CategoriaService'; 
 export class TarefaController {
     private service = new TarefaService();
+    private categoriaService = new CategoriaService(); 
 
     async criar(usuario_id: number) {
         console.log("\n--- Nova Tarefa ---");
@@ -29,7 +30,6 @@ export class TarefaController {
         if (tarefas.length === 0) {
             console.log("Nenhuma tarefa encontrada.");
         } else {
-            // Mapeia para mostrar apenas o necessário na tabela
             console.table(tarefas.map((t: any) => ({ 
                 ID: t.id, 
                 Titulo: t.titulo, 
@@ -39,7 +39,9 @@ export class TarefaController {
     }
 
     async concluir(usuario_id: number) {
-        const id = readlineSync.questionInt("Digite o ID da tarefa para concluir: ");
+        await this.listar(usuario_id);
+        
+        const id = readlineSync.questionInt("\nDigite o ID da tarefa para concluir: ");
         try {
             await this.service.concluirTarefa(usuario_id, id);
             console.log("✅ Tarefa marcada como concluída!");
@@ -49,12 +51,40 @@ export class TarefaController {
     }
 
     async excluir(usuario_id: number) {
-        const id = readlineSync.questionInt("Digite o ID da tarefa para excluir: ");
+        await this.listar(usuario_id);
+
+        const id = readlineSync.questionInt("\nDigite o ID da tarefa para excluir: ");
         try {
             await this.service.excluirTarefa(usuario_id, id);
             console.log("🗑️ Tarefa removida com sucesso.");
         } catch (error) {
             console.error("Erro ao excluir tarefa.");
+        }
+    }
+
+    async vincularCategoria(usuario_id: number) {
+        console.log("\n--- Vincular Categoria a Tarefa ---");
+        
+        console.log(">> Escolha a Tarefa:");
+        await this.listar(usuario_id);
+        const tarefaId = readlineSync.questionInt("Digite o ID da Tarefa: ");
+
+        console.log("\n>> Escolha a Categoria:");
+        const categorias = await this.categoriaService.listar();
+        
+        if (categorias.length === 0) {
+            console.log("⚠️ Nenhuma categoria cadastrada. Vá no menu de categorias e crie uma antes.");
+            return;
+        }
+
+        console.table(categorias);
+        const categoriaId = readlineSync.questionInt("Digite o ID da Categoria: ");
+
+        try {
+            await this.service.adicionarCategoria(tarefaId, categoriaId);
+            console.log("✅ Categoria vinculada com sucesso!");
+        } catch (error) {
+            console.error("Erro ao vincular. Verifique se os IDs existem.");
         }
     }
 }

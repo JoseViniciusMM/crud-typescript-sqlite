@@ -3,7 +3,6 @@ import { open, Database } from 'sqlite';
 
 const DB_PATH = './atividade.db';
 
-// DDL Corrigida (Erros de digitação removidos)
 const DDL = `
     CREATE TABLE IF NOT EXISTS usuarios (
         id INTEGER PRIMARY KEY AUTOINCREMENT,

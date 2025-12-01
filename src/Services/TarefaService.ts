@@ -30,4 +30,8 @@ export class TarefaService {
             await this.logRepo.registrar(usuario_id, `Excluiu tarefa ID: ${tarefa_id}`);
         }
     }
+
+    async adicionarCategoria(tarefaId: number, categoriaId: number): Promise<void> {
+        await this.tarefaRepo.associarCategoria(tarefaId, categoriaId);
+    }
 }
