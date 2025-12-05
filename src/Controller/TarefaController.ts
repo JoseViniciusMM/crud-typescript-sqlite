@@ -22,19 +22,17 @@ const prioridadeEscolhida = Object.values(Prioridade)[indexPrioridade];
 
 const dataVenc = readlineSync.question("Data Vencimento (AAAA-MM-DD) [Enter para pular]: ");
 
-try {
-    const tarefa = await this.service.criarTarefa({
-        usuario_id,
-        titulo,
-        descricao,
-        status: 'pendente',
-        prioridade: prioridadeEscolhida as Prioridade,
-        data_vencimento: dataVenc || undefined
-    });
-    console.log(`✅ Tarefa criada com prioridade ${tarefa.prioridade}!`);
-} catch (error: any) {
-    console.error(`❌ Erro de Regra de Negócio: ${error.message}`);
-}
+        try {
+            const tarefa = await this.service.criarTarefa({
+                usuario_id,
+                titulo,
+                descricao,
+                status: 'pendente'
+            });
+            console.log(`✅ Tarefa "${tarefa.titulo}" criada com sucesso!`);
+        } catch (error) {
+            console.error("Erro ao criar tarefa.");
+        }
     }
 
     async listar(usuario_id: number) {
@@ -64,8 +62,8 @@ try {
         try {
             await this.service.concluirTarefa(usuario_id, id);
             console.log("✅ Tarefa marcada como concluída!");
-        } catch (error: any) {
-            console.error("Erro ao atualizar tarefa:", error.message || error);
+        } catch (error) {
+            console.error("Erro ao atualizar tarefa.");
         }
     }
 
@@ -77,9 +75,9 @@ try {
         const id = readlineSync.questionInt("\nDigite o ID da tarefa para excluir: ");
         try {
             await this.service.excluirTarefa(usuario_id, id);
-            console.log("🗑️ Tarefa excluída com sucesso!");
-        } catch (error: any) {
-            console.error("Erro ao excluir tarefa:", error.message || error);
+            console.log("🗑️ Tarefa removida com sucesso.");
+        } catch (error) {
+            console.error("Erro ao excluir tarefa.");
         }
     }
 
@@ -100,7 +98,7 @@ try {
         const categorias = await this.categoriaService.listar();
 
         if (categorias.length === 0) {
-            console.log("⚠️ Nenhuma categoria cadastrada. Vá no menu de categorias e crie uma antes.");
+            console.log(" Nenhuma categoria cadastrada. Vá no menu de categorias e crie uma antes.");
             return;
         }
 
@@ -110,7 +108,7 @@ try {
         try {
             await this.service.adicionarCategoria(tarefaId, categoriaId);
             console.log("✅ Categoria vinculada com sucesso!");
-        } catch (error: any) {
+        } catch (error) {
             console.error("Erro ao vincular. Verifique se os IDs existem.");
         }
     }

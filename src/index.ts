@@ -30,6 +30,7 @@ async function menuLogin() {
   console.log("0. Sair");
   const opcao = readlineSync.question("Escolha: ");
 
+<<<<<<< HEAD
   try {
     if (opcao === '1') {
       const email = readlineSync.question("Email: ");
@@ -43,6 +44,36 @@ async function menuLogin() {
         console.clear();
         console.log(`✅ Bem-vindo, ${usuarioLogado.nome}!`);
       }
+=======
+    try {
+        if (opcao === '1') {
+            const email = readlineSync.question("Email: ");
+            const senha = readlineSync.question("Senha: ", { hideEchoBack: true });
+            
+            usuarioLogado = await authService.login(email, senha);
+            
+            if (!usuarioLogado) {
+                console.log(" Email ou senha inválidos.");
+            } else {
+                console.clear();
+                console.log(`  Bem-vindo, ${usuarioLogado.nome}!`);
+            }
+        } 
+        else if (opcao === '2') {
+            const nome = readlineSync.question("Nome: ");
+            const email = readlineSync.question("Email: ");
+            const senha = readlineSync.question("Senha: ", { hideEchoBack: true });
+            
+            await authService.cadastrar({ nome, email, senha });
+            console.log("  Cadastro realizado com sucesso! Faça login para continuar.");
+        } 
+        else if (opcao === '3') {
+            console.log("Saindo do sistema...");
+            process.exit(0);
+        }
+    } catch (error: any) {
+        console.error("Erro na operação:", error.message);
+>>>>>>> 128d10019c36a2f403d93f9248b3b570c2f964b4
     }
     else if (opcao === '2') {
       const nome = readlineSync.question("Nome: ");

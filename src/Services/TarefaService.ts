@@ -12,6 +12,7 @@ export class TarefaService {
         const hoje = new Date();
         hoje.setHours(0,0,0,0);
 
+<<<<<<< HEAD
         if (dataPrazo < hoje) {
             throw new Error("A data de vencimento não pode ser no passado.");
         }
@@ -54,5 +55,27 @@ export class TarefaService {
 
     async adicionarCategoria(tarefaId: number, categoriaId: number) {
         await this.tarefaRepo.associarCategoria(tarefaId, categoriaId);
+=======
+    async listarTarefas(usuario_id: number): Promise<Tarefa[]> {
+        return await this.tarefaRepo.findAllByUsuario(usuario_id);
+    }
+
+    async concluirTarefa(usuario_id: number, tarefa_id: number): Promise<void> {
+        const sucesso = await this.tarefaRepo.updateStatus(usuario_id,tarefa_id, 'concluida');
+        if (sucesso) {
+            await this.logRepo.registrar(usuario_id, `Concluiu tarefa ID: ${tarefa_id}`);
+        }
+    }
+
+    async excluirTarefa(usuario_id: number, tarefa_id: number): Promise<void> {
+        const sucesso = await this.tarefaRepo.delete(usuario_id,tarefa_id);
+        if (sucesso) {
+            await this.logRepo.registrar(usuario_id, `Excluiu tarefa ID: ${tarefa_id}`);
+        }
+    }
+
+    async adicionarCategoria(usuario_id: number, tarefaId: number, categoriaId: number): Promise<void> {
+        await this.tarefaRepo.associarCategoria(usuario_id, tarefaId, categoriaId);
+>>>>>>> 128d10019c36a2f403d93f9248b3b570c2f964b4
     }
 }

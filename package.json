@@ -23,7 +23,7 @@
     "readline-sync": "^1.4.10",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
-    "tsx": "^4.20.6"
+    "tsx": "^4.21.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",

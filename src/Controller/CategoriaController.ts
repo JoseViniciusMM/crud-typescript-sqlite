@@ -21,6 +21,7 @@ export class CategoriaController {
             case '2':
                 console.log("\n(Regra: Máximo 15 letras, sem símbolos)");
                 const nome = readlineSync.question("Nome da Categoria: ");
+<<<<<<< HEAD
                 
                 try {
                     await this.service.criar(nome); 
@@ -28,17 +29,26 @@ export class CategoriaController {
                 } catch (error: any) {
                     console.error("❌ Erro:", error.message);
                 }
+=======
+                await this.service.criar(nome);
+                console.log("  Categoria criada!");
+>>>>>>> 128d10019c36a2f403d93f9248b3b570c2f964b4
                 break;
 
             case '3':
                 await this.listar();
                 const id = readlineSync.questionInt("ID para excluir: ");
+<<<<<<< HEAD
                 try {
                     await this.service.excluir(id);
                     console.log("🗑️ Categoria excluída.");
                 } catch (error: any) {
                     console.log(`❌ Erro: ${error.message}`);
                 }
+=======
+                await this.service.excluir(id);
+                console.log("  Categoria excluída.  ");
+>>>>>>> 128d10019c36a2f403d93f9248b3b570c2f964b4
                 break;
 
             case '0':
